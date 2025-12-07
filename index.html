@@ -3,34 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Stock Simulator</title>
+<title>Stock Simulator Plus</title>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- For graphs -->
 </head>
 <body>
 
 <header>
-    <h1>💹 Stock Simulator</h1>
+    <h1>💹 Stock Simulator Plus</h1>
     <div id="moneyDisplay">$0</div>
 </header>
 
 <div class="container">
 
-    <div class="panel">
+    <div class="panel" id="stocksPanel">
         <h2>Your Stocks</h2>
         <div id="yourStocks"></div>
         <input type="number" id="sellAmount" placeholder="Amount to sell">
         <button onclick="sellOwnedStock()">Sell Stock</button>
-    </div>
-
-    <div class="panel">
-        <h2>NPC Stocks</h2>
-        <div id="npcStocks"></div>
         <button onclick="buyNPCStock()">Buy NPC Stock</button>
+        <canvas id="stockGraph" width="280" height="150"></canvas>
     </div>
 
-    <div class="panel">
-        <h2>Create New Stock</h2>
-        <button onclick="createNewStock()">Create Stock ($25,000)</button>
+    <div class="panel" id="homesPanel">
+        <h2>Homes</h2>
+        <div id="homeList"></div>
+        <button onclick="buyHome()">Buy Home</button>
+    </div>
+
+    <div class="panel" id="carsPanel">
+        <h2>Cars</h2>
+        <div id="carList"></div>
+        <button onclick="buyCar()">Buy Car</button>
+    </div>
+
+    <div class="panel" id="companiesPanel">
+        <h2>Companies</h2>
+        <div id="companyList"></div>
+        <button onclick="startCompany()">Start Company</button>
     </div>
 
     <div class="panel changelog-panel">
@@ -38,9 +48,22 @@
         <div id="inGameChangelog"></div>
     </div>
 
+    <div class="panel" id="saveLoadPanel">
+        <button onclick="saveGame()">Save Game</button>
+        <button onclick="loadGame()">Load Game</button>
+    </div>
+
 </div>
 
-<script src="game.js"></script>
+<script src="stocks.js"></script>
+<script src="npc.js"></script>
+<script src="homes.js"></script>
+<script src="cars.js"></script>
+<script src="companies.js"></script>
+<script src="saveLoad.js"></script>
+<script src="graphs.js"></script>
 <script src="changelog.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
+
