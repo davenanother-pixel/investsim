@@ -82,27 +82,27 @@ function renderStocks() {
     });
 }
 
-// Market update: price fluctuation and growth
+// Aggressive market update: faster and larger swings
 setInterval(() => {
     stocks.forEach(stock => {
-        // Random fluctuation -5% to +5%
-        let changePercent = (Math.random() - 0.5) * 0.1;
+        // Random fluctuation -15% to +15%
+        let changePercent = (Math.random() - 0.5) * 0.3; // ±15%
         stock.price = Math.max(1, Math.floor(stock.price * (1 + changePercent)));
 
-        // Small growth factor +0.1%
-        stock.price = Math.floor(stock.price * 1.001);
+        // Strong growth factor +0.5%
+        stock.price = Math.floor(stock.price * 1.005);
 
-        // NPC shares random adjustment
+        // NPC shares random adjustment more often
         let action = Math.random();
-        if (action < 0.05 && stock.npcShares > 0) {
-            stock.npcShares -= 1;
-        } else if (action < 0.1) {
-            stock.npcShares += 1;
+        if (action < 0.1 && stock.npcShares > 0) {
+            stock.npcShares -= Math.floor(Math.random() * 5); // NPC sells 0-4 shares
+        } else if (action < 0.2) {
+            stock.npcShares += Math.floor(Math.random() * 5); // NPC buys 0-4 shares
         }
     });
 
     renderStocks();
-}, 1000);
+}, 500); // update every 0.5 seconds for faster action
 
 // Initial render
 renderStocks();
