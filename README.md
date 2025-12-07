@@ -1,4 +1,4 @@
-📈 Fast Stock Tycoon – Life & Investing Simulator
+📈 Invest Simulator – Life & Investing Simulator
 A free-to-play HTML game about stocks, money, NPC traders, companies, homes, cars, and infinite growth.
 
 Fast Stock Tycoon is a lightweight browser-based economic simulator inspired by fast stock markets, BitLife-style life actions, and free-choice investing. Everything is client-side HTML + JS, completely free, with no external dependencies.
