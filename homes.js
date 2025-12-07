@@ -29,4 +29,6 @@ function renderHomes() {
         container.innerHTML += `<div>${home.name} - $${home.price}</div>`;
     });
 }
+
+// Keep rendering updated every second
 setInterval(renderHomes, 1000);
