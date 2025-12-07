@@ -1,67 +1,99 @@
 let money = 5000;
 
-let yourStock = {
-    shares: 0,
-    price: 100
-};
+// Multiple stocks
+let stocks = [];
+let nextId = 1;
 
-let npcStock = {
-    shares: 5000,
-    price: 80
-};
+// Initial NPC stocks
+function initStocks() {
+    for (let i = 0; i < 5; i++) {
+        stocks.push({
+            id: nextId++,
+            name: "STK" + (i+1),
+            price: Math.floor(Math.random() * 200 + 50),
+            owned: 0,
+            npcOwned: Math.floor(Math.random() * 50 + 10)
+        });
+    }
+}
+initStocks();
 
-function format(num) {
+// Format numbers
+function fmt(num) {
     return num.toLocaleString("en-US");
 }
 
+// Display update
 function updateDisplay() {
-    document.getElementById("moneyDisplay").innerHTML = `$${format(money)}`;
+    document.getElementById("moneyDisplay").innerText = `$${fmt(money)}`;
 
-    document.getElementById("yourStocks").innerHTML =
-        `Shares: ${format(yourStock.shares)}<br>Price: $${format(yourStock.price)}`;
+    const yourDiv = document.getElementById("yourStocks");
+    const npcDiv = document.getElementById("npcStocks");
 
-    document.getElementById("npcStocks").innerHTML =
-        `NPC Shares: ${format(npcStock.shares)}<br>Price: $${format(npcStock.price)}`;
+    yourDiv.innerHTML = "";
+    npcDiv.innerHTML = "";
+
+    stocks.forEach(s => {
+        yourDiv.innerHTML += `Stock: ${s.name} | Shares: ${fmt(s.owned)} | Price: $${fmt(s.price)}<br>`;
+        npcDiv.innerHTML += `Stock: ${s.name} | NPC Shares: ${fmt(s.npcOwned)} | Price: $${fmt(s.price)}<br>`;
+    });
 }
 
-function buyNPCStock() {
-    if (money >= npcStock.price) {
-        money -= npcStock.price;
-        npcStock.shares -= 1;
-        yourStock.shares += 1;
-        updateDisplay();
-    }
-}
-
-function sellOwnedStock() {
-    let amount = parseInt(document.getElementById("sellAmount").value);
-
-    if (isNaN(amount) || amount <= 0) return;
-
-    if (yourStock.shares >= amount) {
-        yourStock.shares -= amount;
-        money += yourStock.price * amount;
-        updateDisplay();
-    }
-}
-
+// Create new stock
 function createNewStock() {
-    if (money >= 25000) {
-        money -= 25000;
-        yourStock.price += Math.floor(Math.random() * 300 + 200);
-        updateDisplay();
-    }
-}
+    if (money < 25000) return alert("Not enough money!");
+    money -= 25000;
 
-function fluctuatePrices() {
-    let change1 = Math.floor(Math.random() * 21) - 10;
-    let change2 = Math.floor(Math.random() * 21) - 10;
-
-    yourStock.price = Math.max(1, yourStock.price + change1 * 2);
-    npcStock.price = Math.max(1, npcStock.price + change2 * 2);
-
+    const newStock = {
+        id: nextId++,
+        name: "STK" + nextId,
+        price: Math.floor(Math.random() * 300 + 200),
+        owned: 0,
+        npcOwned: Math.floor(Math.random() * 30)
+    };
+    stocks.push(newStock);
+    addChangelogEntry(`New stock created: ${newStock.name}`);
     updateDisplay();
 }
 
-setInterval(fluctuatePrices, 1000);
+// Buy NPC stock
+function buyNPCStock() {
+    let s = stocks[Math.floor(Math.random() * stocks.length)];
+    if (money < s.price || s.npcOwned <= 0) return;
+
+    money -= s.price;
+    s.owned++;
+    s.npcOwned--;
+    updateDisplay();
+}
+
+// Sell owned stock
+function sellOwnedStock() {
+    let amount = parseInt(document.getElementById("sellAmount").value);
+    if (isNaN(amount) || amount <= 0) return;
+
+    let s = stocks[Math.floor(Math.random() * stocks.length)];
+    if (amount > s.owned) return alert("Not enough shares to sell!");
+
+    s.owned -= amount;
+    money += amount * s.price;
+    updateDisplay();
+}
+
+// Price fluctuation + NPC behavior
+setInterval(() => {
+    stocks.forEach(s => {
+        let change = (Math.random() - 0.5) * 0.5; // ±25%
+        s.price = Math.max(1, s.price * (1 + change));
+
+        // NPC randomly buys more shares
+        if (Math.random() < 0.4) {
+            let buyAmt = Math.floor(Math.random() * 5 + 1);
+            s.npcOwned += buyAmt;
+            s.price *= 1.02;
+        }
+    });
+    updateDisplay();
+}, 600);
+
 updateDisplay();
