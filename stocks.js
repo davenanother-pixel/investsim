@@ -36,12 +36,10 @@ function renderStocks() {
     yourDiv.innerHTML = "";
     npcDiv.innerHTML = "";
 
-    stocks.forEach((stock, i) => {
-        // Player stock div
+    stocks.forEach(stock => {
         const div = document.createElement("div");
-        div.innerHTML = `
-            <strong>${stock.name}</strong> - $${stock.price} | Shares: ${stock.shares || 0}<br>
-        `;
+        div.innerHTML = `<strong>${stock.name}</strong> - $${stock.price} | Shares: ${stock.shares || 0}<br>`;
+
         const buyBtn = document.createElement("button");
         buyBtn.textContent = "Buy";
         buyBtn.onclick = () => buyStock(stock);
