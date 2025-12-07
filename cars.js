@@ -29,4 +29,6 @@ function renderCars() {
         container.innerHTML += `<div>${car.name} - $${car.price}</div>`;
     });
 }
+
 setInterval(renderCars, 1000);
+
