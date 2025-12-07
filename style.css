@@ -1,31 +1,62 @@
 body {
-  background: #0d0f15;
-  color: #00ffb3;
-  font-family: monospace;
-  text-align: center;
+    background: #1b1b2f;
+    color: #00ffb3;
+    font-family: monospace;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 36px;
+}
+
+#moneyDisplay {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.panel {
+    background: #2b2b3f;
+    padding: 15px;
+    width: 300px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0 0 10px #000;
 }
 
 button {
-  margin: 5px;
-  padding: 10px 20px;
-  background: #00ffb3;
-  color: #0d0f15;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 6px;
+    background: #0a84ff;
+    border: none;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 80%;
+    font-size: 16px;
 }
 
-table {
-  margin: 0 auto;
-  border-collapse: collapse;
+button:hover {
+    background: #006bd6;
 }
 
-td, th {
-  border: 1px solid #00ffb3;
-  padding: 5px 10px;
+input {
+    width: 80%;
+    padding: 8px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: none;
 }
 
-td {
-  color: #defdf0;
+.changelog-panel {
+    max-height: 400px;
+    overflow-y: auto;
+    text-align: left;
 }
