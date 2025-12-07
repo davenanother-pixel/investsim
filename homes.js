@@ -9,7 +9,24 @@ function buyHome(index) {
         money -= homes[index].price;
         alert(`You bought: ${homes[index].name}`);
         updateDisplay();
+        renderHomes();
     } else {
         alert("Not enough money!");
     }
 }
+
+function createCustomHome(name, price) {
+    if (!name || !price) return alert("Name and price required!");
+    homes.push({ name, price });
+    alert(`Created home: ${name} for $${price}`);
+    renderHomes();
+}
+
+function renderHomes() {
+    const container = document.getElementById("homesList");
+    container.innerHTML = "";
+    homes.forEach((home, i) => {
+        container.innerHTML += `<div>${home.name} - $${home.price}</div>`;
+    });
+}
+setInterval(renderHomes, 1000);
