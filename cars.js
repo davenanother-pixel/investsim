@@ -1,34 +1,21 @@
-let cars = [
-    { name: "Compact Car", price: 15000 },
-    { name: "Sedan", price: 30000 },
-    { name: "Sports Car", price: 100000 }
-];
+let cars = [];
 
-function buyCar(index) {
-    if (money >= cars[index].price) {
-        money -= cars[index].price;
-        alert(`You bought: ${cars[index].name}`);
-        updateDisplay();
+function createCar() {
+    if (money >= 10000) {
+        money -= 10000;
+        cars.push({ name: `Car #${cars.length + 1}`, value: 10000 });
         renderCars();
     } else {
-        alert("Not enough money!");
+        alert("Not enough money for a car!");
     }
 }
 
-function createCustomCar(name, price) {
-    if (!name || !price) return alert("Name and price required!");
-    cars.push({ name, price });
-    alert(`Created car: ${name} for $${price}`);
-    renderCars();
-}
-
 function renderCars() {
-    const container = document.getElementById("carsList");
-    container.innerHTML = "";
-    cars.forEach((car, i) => {
-        container.innerHTML += `<div>${car.name} - $${car.price}</div>`;
+    const div = document.getElementById("yourCars");
+    div.innerHTML = "";
+    cars.forEach(car => {
+        div.innerHTML += `${car.name} | $${car.value}<br>`;
     });
 }
 
-setInterval(renderCars, 1000);
-
+setInterval(renderCars, 500);
