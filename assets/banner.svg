@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" width="600" height="150">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="600" height="160">
   <!-- Background -->
-  <rect width="600" height="150" fill="#0d0f15" rx="15"/>
+  <rect width="600" height="160" fill="#0d0f15" rx="15"/>
 
-  <!-- Green stock bars on the left -->
-  <g transform="translate(50,30)">
-    <rect x="0" y="60" width="20" height="60" rx="2" fill="#00ff4c"/>
-    <rect x="30" y="30" width="20" height="90" rx="2" fill="#00ff4c"/>
-    <rect x="60" y="0" width="20" height="120" rx="2" fill="#00ff4c"/>
+  <!-- Angled green stock bars on the left -->
+  <g transform="translate(50,20)">
+    <rect x="0" y="60" width="20" height="60" rx="2" fill="#00ff4c" transform="skewX(-15)"/>
+    <rect x="30" y="30" width="20" height="90" rx="2" fill="#00ff4c" transform="skewX(-15)"/>
+    <rect x="60" y="0" width="20" height="120" rx="2" fill="#00ff4c" transform="skewX(-15)"/>
   </g>
 
-  <!-- Bold text next to bars -->
-  <text x="150" y="90" font-family="monospace" font-size="36" font-weight="bold" fill="#00ff4c">
+  <!-- Bold name to the right of bars -->
+  <text x="200" y="80" font-family="monospace" font-size="36" font-weight="bold" fill="#00ff4c" alignment-baseline="middle">
     Stock Simulator
   </text>
 </svg>
