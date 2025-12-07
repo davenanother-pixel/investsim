@@ -1,0 +1,31 @@
+body {
+  background: #0d0f15;
+  color: #00ffb3;
+  font-family: monospace;
+  text-align: center;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 20px;
+  background: #00ffb3;
+  color: #0d0f15;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #00ffb3;
+  padding: 5px 10px;
+}
+
+td {
+  color: #defdf0;
+}
