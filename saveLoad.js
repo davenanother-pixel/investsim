@@ -1,29 +1,34 @@
 function saveGame() {
     const saveData = {
         money,
+        yourStock,
         stocks,
-        ownedHomes,
-        ownedCars,
+        npcStock,
+        homes,
+        cars,
         companies
     };
-    localStorage.setItem("stockSimSave", JSON.stringify(saveData));
+    localStorage.setItem("stockSimulatorSave", JSON.stringify(saveData));
     alert("Game saved!");
 }
 
 function loadGame() {
-    const data = JSON.parse(localStorage.getItem("stockSimSave"));
-    if (!data) return alert("No save data found!");
-
-    money = data.money;
-    stocks = data.stocks;
-    ownedHomes = data.ownedHomes;
-    ownedCars = data.ownedCars;
-    companies = data.companies;
-
-    addChangelogEntry("Game loaded from save");
-    updateStocksDisplay();
-    updateHomesDisplay();
-    updateCarsDisplay();
-    updateCompaniesDisplay();
-    renderGraphs();
+    const data = JSON.parse(localStorage.getItem("stockSimulatorSave"));
+    if (data) {
+        money = data.money;
+        yourStock = data.yourStock;
+        stocks = data.stocks;
+        npcStock = data.npcStock;
+        homes = data.homes;
+        cars = data.cars;
+        companies = data.companies;
+        updateDisplay();
+        renderStocks();
+        renderHomes();
+        renderCars();
+        renderCompanies();
+        alert("Game loaded!");
+    } else {
+        alert("No save found.");
+    }
 }
