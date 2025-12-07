@@ -29,5 +29,5 @@ function renderCompanies() {
         container.innerHTML += `<div>${company.name} - $${company.value}</div>`;
     });
 }
-setInterval(renderCompanies, 1000);
 
+setInterval(renderCompanies, 1000);
