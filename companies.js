@@ -1,33 +1,22 @@
-let companies = [
-    { name: "Tech Corp", value: 50000 },
-    { name: "Auto Inc", value: 75000 },
-    { name: "Foodies", value: 30000 }
-];
+let companies = [];
 
-function investInCompany(index) {
-    if (money >= companies[index].value) {
-        money -= companies[index].value;
-        alert(`Invested in: ${companies[index].name}`);
-        updateDisplay();
+function createCompany() {
+    if (money >= 100000) {
+        money -= 100000;
+        companies.push({ name: `Company #${companies.length + 1}`, value: 100000 });
         renderCompanies();
     } else {
-        alert("Not enough money!");
+        alert("Not enough money for a company!");
     }
 }
 
-function createCustomCompany(name, value) {
-    if (!name || !value) return alert("Name and value required!");
-    companies.push({ name, value });
-    alert(`Created company: ${name} valued at $${value}`);
-    renderCompanies();
-}
-
 function renderCompanies() {
-    const container = document.getElementById("companiesList");
-    container.innerHTML = "";
-    companies.forEach((company, i) => {
-        container.innerHTML += `<div>${company.name} - $${company.value}</div>`;
+    const div = document.getElementById("yourCompanies");
+    div.innerHTML = "";
+    companies.forEach(company => {
+        div.innerHTML += `${company.name} | $${company.value}<br>`;
     });
 }
 
-setInterval(renderCompanies, 1000);
+setInterval(renderCompanies, 500);
+
