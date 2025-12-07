@@ -1,57 +1,46 @@
-body {
-    background: #222;
-    color: #f8f8f8;
-    font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-h1 {
-    font-size: 38px;
-    margin-bottom: 20px;
-}
+<header>
+    <h1>💹 Stock Simulator</h1>
+    <div id="moneyDisplay">$0</div>
+</header>
 
-#moneyDisplay {
-    font-size: 32px;
-    margin-bottom: 25px;
-    font-weight: bold;
-}
+<div class="container">
 
-.container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
+    <div class="panel">
+        <h2>Your Stocks</h2>
+        <div id="yourStocks"></div>
+        <input type="number" id="sellAmount" placeholder="Amount to sell">
+        <button onclick="sellOwnedStock()">Sell Stock</button>
+    </div>
 
-.panel {
-    background: #333;
-    padding: 15px;
-    width: 280px;
-    border-radius: 10px;
-    margin: 10px;
-    box-shadow: 0px 0px 10px #000;
-}
+    <div class="panel">
+        <h2>NPC Stocks</h2>
+        <div id="npcStocks"></div>
+        <button onclick="buyNPCStock()">Buy NPC Stock</button>
+    </div>
 
-button {
-    background: #0a84ff;
-    border: none;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    width: 80%;
-    font-size: 16px;
-}
+    <div class="panel">
+        <h2>Create New Stock</h2>
+        <button onclick="createNewStock()">Create Stock ($25,000)</button>
+    </div>
 
-button:hover {
-    background: #006bd6;
-}
+    <div class="panel changelog-panel">
+        <h2>Changelog</h2>
+        <div id="inGameChangelog"></div>
+    </div>
 
-input {
-    width: 80%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 6px;
-    border: none;
-}
+</div>
+
+<script src="game.js"></script>
+<script src="changelog.js"></script>
+</body>
+</html>
