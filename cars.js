@@ -19,3 +19,4 @@ function renderCars() {
 }
 
 setInterval(renderCars, 500);
+
