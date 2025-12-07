@@ -30,3 +30,4 @@ setInterval(() => {
         npcDiv.innerHTML = `NPC shares: ${npcStock.shares} | Price: $${stocks[0].price}`;
     }
 }, 500);
+
