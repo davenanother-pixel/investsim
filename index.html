@@ -14,19 +14,19 @@
     <div id="moneyDisplay">$5,000</div>
 
     <div class="container">
-        <!-- Player Stocks Panel -->
+        <!-- Player Stocks -->
         <div class="panel">
             <h2>Your Stocks</h2>
             <div id="yourStocks"></div>
         </div>
 
-        <!-- NPC Stocks Panel -->
+        <!-- NPC Stocks -->
         <div class="panel">
             <h2>NPC Stocks</h2>
             <div id="npcStocks"></div>
         </div>
 
-        <!-- Create New Stock Panel -->
+        <!-- Create Stock -->
         <div class="panel">
             <h2>Create New Stock</h2>
             <input type="text" id="newStockName" placeholder="Stock Name">
@@ -36,24 +36,28 @@
                 parseInt(document.getElementById('newStockPrice').value)
             )">Create Stock ($25,000)</button>
         </div>
-    </div>
 
-    <!-- Stock Graph -->
-    <div class="panel" style="width: 90%; margin: 20px auto;">
-        <h2>Stock Price Graph</h2>
-        <canvas id="stockGraph" width="600" height="300"></canvas>
+        <!-- Create Company -->
+        <div class="panel">
+            <h2>Create New Company</h2>
+            <input type="text" id="newCompanyName" placeholder="Company Name">
+            <input type="number" id="newCompanyValue" placeholder="Company Value">
+            <button onclick="createCompany(
+                document.getElementById('newCompanyName').value,
+                parseInt(document.getElementById('newCompanyValue').value)
+            )">Create Company</button>
+        </div>
+
+        <!-- Player Companies -->
+        <div class="panel">
+            <h2>Your Companies</h2>
+            <div id="yourCompanies"></div>
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="game.js"></script>
     <script src="stocks.js"></script>
     <script src="npc.js"></script>
-    <script src="homes.js"></script>
-    <script src="cars.js"></script>
-    <script src="companies.js"></script>
-    <script src="graphs.js"></script>
-    <script src="saveLoad.js"></script>
-    <script src="changelog.js"></script>
 </body>
 </html>
-
