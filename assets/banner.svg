@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" width="600" height="150">
+  <!-- Background -->
+  <rect width="600" height="150" fill="#0d0f15" rx="15"/>
+
+  <!-- Green stock bars on the left -->
+  <g transform="translate(50,30)">
+    <rect x="0" y="60" width="20" height="60" rx="2" fill="#00ff4c"/>
+    <rect x="30" y="30" width="20" height="90" rx="2" fill="#00ff4c"/>
+    <rect x="60" y="0" width="20" height="120" rx="2" fill="#00ff4c"/>
+  </g>
+
+  <!-- Bold text next to bars -->
+  <text x="150" y="90" font-family="monospace" font-size="36" font-weight="bold" fill="#00ff4c">
+    Stock Simulator
+  </text>
+</svg>
