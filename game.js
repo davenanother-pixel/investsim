@@ -8,5 +8,5 @@ function updateMoneyDisplay() {
     document.getElementById("moneyDisplay").textContent = `$${format(money)}`;
 }
 
-// Call every 500ms
+// Update money display every 500ms
 setInterval(updateMoneyDisplay, 500);
