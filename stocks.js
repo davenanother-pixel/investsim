@@ -7,54 +7,59 @@ function createStock(name, price) {
     if (money >= 25000) {
         money -= 25000;
         stocks.push({ name, price, shares: 0, npcShares: 100 });
+        renderStocks(); // immediately render new stock
     } else {
         alert("Not enough money!");
     }
 }
 
-function buyStock(stock) {
+function buyStock(stockIndex) {
+    const stock = stocks[stockIndex];
     if (money >= stock.price) {
         money -= stock.price;
         stock.shares = (stock.shares || 0) + 1;
+        renderStocks();
     }
 }
 
-function sellStock(stock, amount) {
+function sellStock(stockIndex) {
+    const stock = stocks[stockIndex];
+    const input = document.getElementById(`sellInput-${stockIndex}`);
+    const amount = parseInt(input.value);
     if (!amount || amount <= 0) return;
     if ((stock.shares || 0) >= amount) {
         stock.shares -= amount;
         money += stock.price * amount;
+        input.value = "";
+        renderStocks();
     } else {
         alert("Not enough shares!");
     }
 }
 
-// Render stocks
 function renderStocks() {
     const yourDiv = document.getElementById("yourStocks");
     const npcDiv = document.getElementById("npcStocks");
     yourDiv.innerHTML = "";
     npcDiv.innerHTML = "";
 
-    stocks.forEach(stock => {
+    stocks.forEach((stock, i) => {
+        // Player stock div
         const div = document.createElement("div");
         div.innerHTML = `<strong>${stock.name}</strong> - $${stock.price} | Shares: ${stock.shares || 0}<br>`;
 
         const buyBtn = document.createElement("button");
         buyBtn.textContent = "Buy";
-        buyBtn.onclick = () => buyStock(stock);
+        buyBtn.onclick = () => buyStock(i);
 
         const sellInput = document.createElement("input");
         sellInput.type = "number";
         sellInput.placeholder = "Amount to sell";
+        sellInput.id = `sellInput-${i}`;
 
         const sellBtn = document.createElement("button");
         sellBtn.textContent = "Sell";
-        sellBtn.onclick = () => {
-            const amount = parseInt(sellInput.value);
-            sellStock(stock, amount);
-            sellInput.value = "";
-        };
+        sellBtn.onclick = () => sellStock(i);
 
         div.appendChild(buyBtn);
         div.appendChild(document.createElement("br"));
@@ -68,4 +73,5 @@ function renderStocks() {
     });
 }
 
-setInterval(renderStocks, 500);
+// initial render
+renderStocks();
