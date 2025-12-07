@@ -1,76 +1,85 @@
-// Player stocks array
+// Array of all stocks
 let stocks = [
-    { name: "Default Stock", price: 100, shares: 0, history: [100] }
+    { name: "Default Stock", price: 100, shares: 0, npcShares: 0, history: [100] }
 ];
 
-// Money variable from game.js
-// let money = 5000;
-
-// --- Create a new custom stock ---
-function createCustomStock(name, price) {
-    if (money < 25000) return alert("Not enough money to create a stock!");
-    if (!name || !price) return alert("Name and price required!");
-
-    money -= 25000;
-
-    let newStock = {
-        name: name,
-        price: price,
-        shares: 0,
-        history: [price] // initial history for graph
-    };
-
-    stocks.push(newStock);
-    updateDisplay();
-    renderStocks();
-    alert(`Created stock: ${name} at $${price}`);
-}
-
-// --- Buy a stock ---
+// Buy stock function
 function buyStock(stock) {
-    if (money < stock.price) return alert("Not enough money!");
-    money -= stock.price;
-    stock.shares = (stock.shares || 0) + 1;
-    updateDisplay();
-    renderStocks();
+    if (money >= stock.price) {
+        money -= stock.price;
+        stock.shares = (stock.shares || 0) + 1;
+    }
 }
 
-// --- Sell a stock ---
+// Sell stock function
 function sellStock(stock, amount) {
-    if (isNaN(amount) || amount <= 0) return;
-    if (stock.shares >= amount) {
+    if (!amount || amount <= 0) return;
+    if ((stock.shares || 0) >= amount) {
         stock.shares -= amount;
         money += stock.price * amount;
-        updateDisplay();
-        renderStocks();
-    } else alert("Not enough shares!");
+    }
 }
 
-// --- Render stocks in the UI ---
-function renderStocks() {
-    const container = document.getElementById("yourStocks");
-    container.innerHTML = "";
+// Create custom stock
+function createCustomStock(name, price) {
+    if (!name || isNaN(price) || price <= 0) return;
+    if (money >= 25000) {
+        money -= 25000;
+        stocks.push({ name, price, shares: 0, npcShares: 0, history: [price] });
+    } else {
+        alert("Not enough money to create a stock!");
+    }
+}
 
+// --- Render all stocks (player + NPC) ---
+function renderAllStocks() {
+    const yourDiv = document.getElementById("yourStocks");
+    const npcDiv = document.getElementById("npcStocks");
+    if (!yourDiv || !npcDiv) return;
+
+    // Player stocks
+    yourDiv.innerHTML = "";
     stocks.forEach((stock, i) => {
-        container.innerHTML += `
-        <div>
-            ${stock.name} - $${stock.price} | Shares: ${stock.shares} 
-            <button onclick="buyStock(stocks[${i}])">Buy</button>
-        </div>`;
+        const stockDiv = document.createElement("div");
+        stockDiv.className = "stock-item";
+
+        stockDiv.innerHTML = `
+            <strong>${stock.name}</strong> - $${stock.price} | Shares: ${stock.shares || 0}
+        `;
+
+        const buyBtn = document.createElement("button");
+        buyBtn.textContent = "Buy";
+        buyBtn.onclick = () => buyStock(stock);
+
+        const sellInput = document.createElement("input");
+        sellInput.type = "number";
+        sellInput.placeholder = "Amount to sell";
+        sellInput.style.marginTop = "5px";
+
+        const sellBtn = document.createElement("button");
+        sellBtn.textContent = "Sell";
+        sellBtn.onclick = () => {
+            const amount = parseInt(sellInput.value);
+            sellStock(stock, amount);
+            sellInput.value = "";
+        };
+
+        stockDiv.appendChild(document.createElement("br"));
+        stockDiv.appendChild(buyBtn);
+        stockDiv.appendChild(document.createElement("br"));
+        stockDiv.appendChild(sellInput);
+        stockDiv.appendChild(sellBtn);
+
+        yourDiv.appendChild(stockDiv);
+    });
+
+    // NPC stocks
+    npcDiv.innerHTML = "";
+    stocks.forEach(stock => {
+        npcDiv.innerHTML += `${stock.name} | NPC shares: ${stock.npcShares || 0} | Price: $${stock.price}<br>`;
     });
 }
 
-// --- Automatic stock fluctuation ---
-setInterval(() => {
-    stocks.forEach(stock => {
-        let change = (Math.random() - 0.5) * 5; // ±2.5%
-        stock.price = Math.max(1, Math.floor(stock.price * (1 + change / 100)));
+// Run render loop
+setInterval(renderAllStocks, 500);
 
-        // Update stock history for graphs
-        if (!stock.history) stock.history = [];
-        stock.history.push(stock.price);
-        if (stock.history.length > 50) stock.history.shift();
-    });
-
-    renderStocks();
-}, 1000);
