@@ -1,34 +1,22 @@
-let homes = [
-    { name: "Small House", price: 50000 },
-    { name: "Apartment", price: 120000 },
-    { name: "Villa", price: 500000 }
-];
+let homes = [];
 
-function buyHome(index) {
-    if (money >= homes[index].price) {
-        money -= homes[index].price;
-        alert(`You bought: ${homes[index].name}`);
-        updateDisplay();
+function createHome() {
+    if (money >= 50000) {
+        money -= 50000;
+        homes.push({ name: `Home #${homes.length + 1}`, value: 50000 });
         renderHomes();
     } else {
-        alert("Not enough money!");
+        alert("Not enough money for a home!");
     }
 }
 
-function createCustomHome(name, price) {
-    if (!name || !price) return alert("Name and price required!");
-    homes.push({ name, price });
-    alert(`Created home: ${name} for $${price}`);
-    renderHomes();
-}
-
 function renderHomes() {
-    const container = document.getElementById("homesList");
-    container.innerHTML = "";
-    homes.forEach((home, i) => {
-        container.innerHTML += `<div>${home.name} - $${home.price}</div>`;
+    const div = document.getElementById("yourHomes");
+    div.innerHTML = "";
+    homes.forEach(home => {
+        div.innerHTML += `${home.name} | $${home.value}<br>`;
     });
 }
 
-// Keep rendering updated every second
-setInterval(renderHomes, 1000);
+setInterval(renderHomes, 500);
+
