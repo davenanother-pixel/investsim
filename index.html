@@ -3,61 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Simulator 0.5.0</title>
+    <title>Stock Simulator r0.0</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <img src="assets/banner.svg" alt="Stock Simulator Banner" width="600">
+        <img src="assets/banner.svg" alt="Banner" width="600">
+        <h1>Stock Simulator r0.0</h1>
     </header>
 
     <div id="moneyDisplay">$5,000</div>
 
     <div class="container">
-        <!-- Player Stocks -->
+        <!-- Stocks Panel -->
         <div class="panel">
             <h2>Your Stocks</h2>
             <div id="yourStocks"></div>
         </div>
 
-        <!-- NPC Stocks -->
+        <!-- NPC Stocks Panel -->
         <div class="panel">
             <h2>NPC Stocks</h2>
             <div id="npcStocks"></div>
         </div>
 
-        <!-- Create Stock -->
+        <!-- Create Stock Panel -->
         <div class="panel">
             <h2>Create New Stock</h2>
             <input type="text" id="newStockName" placeholder="Stock Name">
             <input type="number" id="newStockPrice" placeholder="Initial Price">
-            <button onclick="createCustomStock(
+            <button onclick="createStock(
                 document.getElementById('newStockName').value,
                 parseInt(document.getElementById('newStockPrice').value)
             )">Create Stock ($25,000)</button>
         </div>
 
-        <!-- Create Company -->
+        <!-- Cars Panel -->
         <div class="panel">
-            <h2>Create New Company</h2>
-            <input type="text" id="newCompanyName" placeholder="Company Name">
-            <input type="number" id="newCompanyValue" placeholder="Company Value">
-            <button onclick="createCompany(
-                document.getElementById('newCompanyName').value,
-                parseInt(document.getElementById('newCompanyValue').value)
-            )">Create Company</button>
+            <h2>Cars</h2>
+            <div id="yourCars"></div>
+            <button onclick="createCar()">Create Car ($10,000)</button>
         </div>
 
-        <!-- Player Companies -->
+        <!-- Homes Panel -->
         <div class="panel">
-            <h2>Your Companies</h2>
+            <h2>Homes</h2>
+            <div id="yourHomes"></div>
+            <button onclick="createHome()">Create Home ($50,000)</button>
+        </div>
+
+        <!-- Companies Panel -->
+        <div class="panel">
+            <h2>Companies</h2>
             <div id="yourCompanies"></div>
+            <button onclick="createCompany()">Create Company ($100,000)</button>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="game.js"></script>
     <script src="stocks.js"></script>
     <script src="npc.js"></script>
+    <script src="homes.js"></script>
+    <script src="cars.js"></script>
+    <script src="companies.js"></script>
+    <script src="graphs.js"></script>
+    <script src="saveLoad.js"></script>
+    <script src="changelog.js"></script>
 </body>
 </html>
+
