@@ -1,27 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Stock Simulator</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+body {
+    background: #222;
+    color: #f8f8f8;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
 
-<h1>💹 Stock Simulator</h1>
-<p>Balance: $<span id="money">5,000</span></p>
+h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+}
 
-<button onclick="makeStock()">Create New Stock ($50,000)</button>
+#moneyDisplay {
+    font-size: 32px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
 
-<table id="stockTable">
-  <tr>
-    <th>Stock</th>
-    <th>Price</th>
-    <th>You Own</th>
-    <th>NPC Own</th>
-    <th>Actions</th>
-  </tr>
-</table>
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
 
-<script src="game.js"></script>
-</body>
-</html>
+.panel {
+    background: #333;
+    padding: 15px;
+    width: 280px;
+    border-radius: 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 10px #000;
+}
+
+button {
+    background: #0a84ff;
+    border: none;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 80%;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #006bd6;
+}
+
+input {
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: none;
+}
