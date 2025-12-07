@@ -1,58 +1,56 @@
-// Stocks system
-let money = 5000;
-let stocks = [];
-let nextStockId = 1;
+let yourStock = { shares: 0, price: 100 };
+let stocks = [
+    { name: "Default Stock", price: 100, shares: 0 }
+];
 
-// Initialize default stocks
-function initStocks() {
-    for (let i = 0; i < 5; i++) {
-        stocks.push({
-            id: nextStockId++,
-            name: "STK" + (i + 1),
-            price: Math.floor(Math.random() * 200 + 50),
-            owned: 0,
-            npcOwned: Math.floor(Math.random() * 50 + 10),
-            priceHistory: []
-        });
+function createCustomStock(name, price) {
+    if (money >= 25000) {
+        money -= 25000;
+        let newStock = {
+            name: name || "Unnamed Stock",
+            price: price || Math.floor(Math.random() * 300 + 200),
+            shares: 0
+        };
+        stocks.push(newStock);
+        alert(`Created new stock: ${newStock.name} at $${newStock.price}`);
+        updateDisplay();
+        renderStocks();
+    } else {
+        alert("Not enough money to create a stock!");
     }
 }
-initStocks();
 
-// Format numbers with commas
-function fmt(num) {
-    return num.toLocaleString("en-US");
+function buyStock(stock) {
+    if (money >= stock.price) {
+        money -= stock.price;
+        stock.shares = (stock.shares || 0) + 1;
+        updateDisplay();
+        renderStocks();
+    } else {
+        alert("Not enough money!");
+    }
 }
 
-// Update stock display
-function updateStocksDisplay() {
-    const yourDiv = document.getElementById("yourStocks");
-    const npcDiv = document.getElementById("npcStocks");
+function sellOwnedStock() {
+    let amount = parseInt(document.getElementById("sellAmount").value);
+    if (isNaN(amount) || amount <= 0) return;
+    if (yourStock.shares >= amount) {
+        yourStock.shares -= amount;
+        money += yourStock.price * amount;
+        updateDisplay();
+        renderStocks();
+    } else {
+        alert("Not enough shares!");
+    }
+}
 
-    yourDiv.innerHTML = "";
-    npcDiv.innerHTML = "";
-
-    stocks.forEach(s => {
-        yourDiv.innerHTML += `Stock: ${s.name} | Shares: ${fmt(s.owned)} | Price: $${fmt(s.price)}<br>`;
-        npcDiv.innerHTML += `Stock: ${s.name} | NPC Shares: ${fmt(s.npcOwned)} | Price: $${fmt(s.price)}<br>`;
+function renderStocks() {
+    const container = document.getElementById("yourStocks");
+    container.innerHTML = "";
+    stocks.forEach((stock, i) => {
+        container.innerHTML += `
+        <div>${stock.name} - $${stock.price} | Shares: ${stock.shares} 
+        <button onclick="buyStock(stocks[${i}])">Buy</button></div>`;
     });
-
-    document.getElementById("moneyDisplay").innerText = `$${fmt(money)}`;
 }
-
-// Create a new stock
-function createNewStock() {
-    if (money < 25000) return alert("Not enough money!");
-    money -= 25000;
-
-    const newStock = {
-        id: nextStockId++,
-        name: "STK" + nextStockId,
-        price: Math.floor(Math.random() * 300 + 200),
-        owned: 0,
-        npcOwned: Math.floor(Math.random() * 30),
-        priceHistory: []
-    };
-    stocks.push(newStock);
-    addChangelogEntry(`New stock created: ${newStock.name}`);
-    updateStocksDisplay();
-}
+setInterval(renderStocks, 1000);
