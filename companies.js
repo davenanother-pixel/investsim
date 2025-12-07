@@ -19,4 +19,3 @@ function renderCompanies() {
 }
 
 setInterval(renderCompanies, 500);
-
