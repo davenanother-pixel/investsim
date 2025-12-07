@@ -1,43 +1,114 @@
-<!-- Custom Stock Creation -->
-<div class="panel">
-    <h2>Create Your Stock</h2>
-    <input type="text" id="customStockName" placeholder="Stock Name">
-    <input type="number" id="customStockPrice" placeholder="Starting Price">
-    <button onclick="createCustomStock(
-        document.getElementById('customStockName').value, 
-        parseInt(document.getElementById('customStockPrice').value)
-    )">Create Stock ($25,000)</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Simulator 0.5.0</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <img src="assets/banner.svg" alt="Stock Simulator Banner" width="600">
+    </header>
 
-<!-- Custom Home Creation -->
-<div class="panel">
-    <h2>Create Home</h2>
-    <input type="text" id="customHomeName" placeholder="Home Name">
-    <input type="number" id="customHomePrice" placeholder="Price">
-    <button onclick="createCustomHome(
-        document.getElementById('customHomeName').value,
-        parseInt(document.getElementById('customHomePrice').value)
-    )">Create Home</button>
-</div>
+    <div id="moneyDisplay">$5,000</div>
 
-<!-- Custom Car Creation -->
-<div class="panel">
-    <h2>Create Car</h2>
-    <input type="text" id="customCarName" placeholder="Car Name">
-    <input type="number" id="customCarPrice" placeholder="Price">
-    <button onclick="createCustomCar(
-        document.getElementById('customCarName').value,
-        parseInt(document.getElementById('customCarPrice').value)
-    )">Create Car</button>
-</div>
+    <div class="container">
 
-<!-- Custom Company Creation -->
-<div class="panel">
-    <h2>Create Company</h2>
-    <input type="text" id="customCompanyName" placeholder="Company Name">
-    <input type="number" id="customCompanyValue" placeholder="Value">
-    <button onclick="createCustomCompany(
-        document.getElementById('customCompanyName').value,
-        parseInt(document.getElementById('customCompanyValue').value)
-    )">Create Company</button>
-</div>
+        <!-- Your Stocks Panel -->
+        <div class="panel">
+            <h2>Your Stocks</h2>
+            <div id="yourStocks"></div>
+            <input type="number" id="sellAmount" placeholder="Amount to sell" />
+            <button onclick="sellStock(stocks[0], parseInt(document.getElementById('sellAmount').value))">Sell Stock</button>
+        </div>
+
+        <!-- NPC Stocks Panel -->
+        <div class="panel">
+            <h2>NPC Stocks</h2>
+            <div id="npcStocks">
+                NPC shares: 5000 | Price: $80
+            </div>
+            <button onclick="buyNPCStock()">Buy NPC Stock</button>
+        </div>
+
+        <!-- Create Custom Stock Panel -->
+        <div class="panel">
+            <h2>Create Stock</h2>
+            <input type="text" id="customStockName" placeholder="Stock Name">
+            <input type="number" id="customStockPrice" placeholder="Starting Price">
+            <button onclick="createCustomStock(
+                document.getElementById('customStockName').value,
+                parseInt(document.getElementById('customStockPrice').value)
+            )">Create Stock ($25,000)</button>
+        </div>
+
+        <!-- Homes Panel -->
+        <div class="panel">
+            <h2>Homes</h2>
+            <div id="homesList"></div>
+            <input type="text" id="customHomeName" placeholder="Home Name">
+            <input type="number" id="customHomePrice" placeholder="Price">
+            <button onclick="createCustomHome(
+                document.getElementById('customHomeName').value,
+                parseInt(document.getElementById('customHomePrice').value)
+            )">Create Home</button>
+            <br><br>
+            <button onclick="buyHome(0)">Buy Small House ($50,000)</button>
+            <button onclick="buyHome(1)">Buy Apartment ($120,000)</button>
+            <button onclick="buyHome(2)">Buy Villa ($500,000)</button>
+        </div>
+
+        <!-- Cars Panel -->
+        <div class="panel">
+            <h2>Cars</h2>
+            <div id="carsList"></div>
+            <input type="text" id="customCarName" placeholder="Car Name">
+            <input type="number" id="customCarPrice" placeholder="Price">
+            <button onclick="createCustomCar(
+                document.getElementById('customCarName').value,
+                parseInt(document.getElementById('customCarPrice').value)
+            )">Create Car</button>
+            <br><br>
+            <button onclick="buyCar(0)">Buy Compact Car ($15,000)</button>
+            <button onclick="buyCar(1)">Buy Sedan ($30,000)</button>
+            <button onclick="buyCar(2)">Buy Sports Car ($100,000)</button>
+        </div>
+
+        <!-- Companies Panel -->
+        <div class="panel">
+            <h2>Companies</h2>
+            <div id="companiesList"></div>
+            <input type="text" id="customCompanyName" placeholder="Company Name">
+            <input type="number" id="customCompanyValue" placeholder="Value">
+            <button onclick="createCustomCompany(
+                document.getElementById('customCompanyName').value,
+                parseInt(document.getElementById('customCompanyValue').value)
+            )">Create Company</button>
+            <br><br>
+            <button onclick="investInCompany(0)">Invest in Tech Corp ($50,000)</button>
+            <button onclick="investInCompany(1)">Invest in Auto Inc ($75,000)</button>
+            <button onclick="investInCompany(2)">Invest in Foodies ($30,000)</button>
+        </div>
+
+        <!-- Save / Load Panel -->
+        <div class="panel">
+            <h2>Save / Load</h2>
+            <button onclick="saveGame()">Save Game</button>
+            <button onclick="loadGame()">Load Game</button>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="game.js"></script>
+    <script src="stocks.js"></script>
+    <script src="npc.js"></script>
+    <script src="homes.js"></script>
+    <script src="cars.js"></script>
+    <script src="companies.js"></script>
+    <script src="graphs.js"></script>
+    <script src="saveLoad.js"></script>
+    <script src="changelog.js"></script>
+</body>
+</html>
