@@ -82,17 +82,23 @@ function renderStocks() {
     });
 }
 
-// PURE GROWTH MARKET
+// HIGHLY BULLISH MARKET: 99% growth, 1% chance of small drop
 setInterval(() => {
     stocks.forEach(stock => {
-        // Only positive growth per tick: +0.5% to +5%
-        let growthPercent = Math.random() * 0.045 + 0.005; // 0.5% to 5%
-        stock.price = Math.floor(stock.price * (1 + growthPercent));
+        let chance = Math.random();
+        if (chance < 0.01) {
+            // 1% chance to drop 5%–10%
+            let drop = Math.random() * 0.05 + 0.05;
+            stock.price = Math.max(1, Math.floor(stock.price * (1 - drop)));
+        } else {
+            // 99% chance to grow 1%–5%
+            let growth = Math.random() * 0.04 + 0.01;
+            stock.price = Math.floor(stock.price * (1 + growth));
+        }
 
-        // NPC shares random adjustment
-        let action = Math.random();
-        let npcChange = Math.floor(Math.random() * 11); // 0-10 shares
-        if (action < 0.5) {
+        // NPC shares random small adjustment
+        let npcChange = Math.floor(Math.random() * 6); // 0-5 shares
+        if (Math.random() < 0.5 && stock.npcShares >= npcChange) {
             stock.npcShares -= npcChange;
         } else {
             stock.npcShares += npcChange;
