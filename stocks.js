@@ -4,9 +4,7 @@ let stocks = [
     { name: "EcoEnergy", price: 75, shares: 0, npcShares: 800 }
 ];
 
-let money = 5000;
-
-// ----- PLAYER STOCK PANEL -----
+// Render Player Stocks once
 function renderPlayerStocks() {
     const yourDiv = document.getElementById("yourStocks");
     yourDiv.innerHTML = "";
@@ -37,7 +35,7 @@ function renderPlayerStocks() {
     });
 }
 
-// ----- BUY & SELL -----
+// Buy & Sell
 function buyStock(index) {
     const stock = stocks[index];
     if (money >= stock.price) {
@@ -46,7 +44,7 @@ function buyStock(index) {
         document.getElementById(`playerShares-${index}`).textContent = stock.shares;
         updateMoneyDisplay();
     } else {
-        alert("Not enough money to buy this stock!");
+        alert("Not enough money!");
     }
 }
 
@@ -63,11 +61,11 @@ function sellStock(index) {
         document.getElementById(`playerShares-${index}`).textContent = stock.shares;
         updateMoneyDisplay();
     } else {
-        alert("Not enough shares to sell!");
+        alert("Not enough shares!");
     }
 }
 
-// ----- NPC STOCK PANEL -----
+// NPC Stocks
 function renderNPCStocks() {
     const npcDiv = document.getElementById("npcStocks");
     npcDiv.innerHTML = "";
@@ -76,12 +74,7 @@ function renderNPCStocks() {
     });
 }
 
-// ----- MONEY DISPLAY -----
-function updateMoneyDisplay() {
-    document.getElementById("moneyDisplay").textContent = `$${money.toLocaleString("en-US")}`;
-}
-
-// ----- CHEAT SYSTEM -----
+// Cheat Code
 function enterCheat() {
     const input = document.getElementById("cheatInput");
     const code = input.value.toLowerCase();
@@ -97,37 +90,34 @@ function enterCheat() {
     input.value = "";
 }
 
-// ----- MARKET UPDATE -----
+// Market Update
 function updateMarket() {
     stocks.forEach(stock => {
         let chance = Math.random();
         if (chance < 0.01) {
-            // 1% chance to drop 5-10%
             let drop = Math.random() * 0.05 + 0.05;
             stock.price = Math.max(1, Math.floor(stock.price * (1 - drop)));
         } else {
-            // 99% chance to grow 1-5%
             let growth = Math.random() * 0.04 + 0.01;
             stock.price = Math.floor(stock.price * (1 + growth));
         }
 
-        // NPC shares random adjustment
-        let npcChange = Math.floor(Math.random() * 6); // 0-5 shares
+        let npcChange = Math.floor(Math.random() * 6);
         if (Math.random() < 0.5 && stock.npcShares >= npcChange) {
             stock.npcShares -= npcChange;
         } else {
             stock.npcShares += npcChange;
         }
 
-        // Update displayed player prices
         document.getElementById(`playerPrice-${stocks.indexOf(stock)}`).textContent = stock.price;
     });
 
     renderNPCStocks();
 }
 
-// ----- INITIAL SETUP -----
+// Initial render
 renderPlayerStocks();
 renderNPCStocks();
 updateMoneyDisplay();
 setInterval(updateMarket, 500);
+
