@@ -38,14 +38,14 @@ function sellStock(index) {
     if (stock.shares >= amount) {
         stock.shares -= amount;
         money += stock.price * amount;
-        input.value = "";
+        input.value = ""; // clear input after selling
         renderStocks();
     } else {
         alert("Not enough shares to sell!");
     }
 }
 
-// Render all stocks
+// Render stocks once and preserve inputs
 function renderStocks() {
     const yourDiv = document.getElementById("yourStocks");
     const npcDiv = document.getElementById("npcStocks");
@@ -61,10 +61,14 @@ function renderStocks() {
         buyBtn.textContent = "Buy";
         buyBtn.onclick = () => buyStock(i);
 
-        const sellInput = document.createElement("input");
-        sellInput.type = "number";
-        sellInput.placeholder = "Amount to sell";
-        sellInput.id = `sellInput-${i}`;
+        // Only create input if it doesn't exist
+        let sellInput = document.getElementById(`sellInput-${i}`);
+        if (!sellInput) {
+            sellInput = document.createElement("input");
+            sellInput.type = "number";
+            sellInput.placeholder = "Amount to sell";
+            sellInput.id = `sellInput-${i}`;
+        }
 
         const sellBtn = document.createElement("button");
         sellBtn.textContent = "Sell";
@@ -77,26 +81,26 @@ function renderStocks() {
 
         yourDiv.appendChild(div);
 
-        // NPC stock display
+        // NPC stock
         npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
     });
 }
 
-// HIGHLY BULLISH MARKET: 99% growth, 1% chance of small drop
+// HIGHLY BULLISH MARKET: 99% growth, 1% small drop
 setInterval(() => {
     stocks.forEach(stock => {
         let chance = Math.random();
         if (chance < 0.01) {
-            // 1% chance to drop 5%–10%
+            // 1% chance to drop 5-10%
             let drop = Math.random() * 0.05 + 0.05;
             stock.price = Math.max(1, Math.floor(stock.price * (1 - drop)));
         } else {
-            // 99% chance to grow 1%–5%
+            // 99% chance to grow 1-5%
             let growth = Math.random() * 0.04 + 0.01;
             stock.price = Math.floor(stock.price * (1 + growth));
         }
 
-        // NPC shares random small adjustment
+        // NPC shares adjustment
         let npcChange = Math.floor(Math.random() * 6); // 0-5 shares
         if (Math.random() < 0.5 && stock.npcShares >= npcChange) {
             stock.npcShares -= npcChange;
@@ -105,8 +109,14 @@ setInterval(() => {
         }
     });
 
-    renderStocks();
-}, 500); // update every 0.5 seconds
+    // Only update NPC prices; do not rebuild player inputs
+    const npcDiv = document.getElementById("npcStocks");
+    npcDiv.innerHTML = "";
+    stocks.forEach(stock => {
+        npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
+    });
+
+}, 500); // 0.5s updates
 
 // Initial render
 renderStocks();
