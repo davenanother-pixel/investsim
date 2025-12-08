@@ -1,3 +1,1 @@
-
-// changelog.js
-console.log("changelog.js loaded");
+console.log("Stock Simulator r0.0 loaded");
