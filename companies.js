@@ -1,21 +1,17 @@
 let companies = [];
 
 function createCompany() {
-    if (money >= 100000) {
-        money -= 100000;
-        companies.push({ name: `Company #${companies.length + 1}`, value: 100000 });
-        renderCompanies();
+    const input = document.getElementById("companyName");
+    const name = input.value.trim();
+    if (!name) return;
+
+    if (money >= 25000) {
+        money -= 25000;
+        companies.push({ name, stockPrice: Math.floor(Math.random()*300+200), shares: 0 });
+        alert(`Company "${name}" created!`);
+        input.value = "";
+        updateMoneyDisplay();
     } else {
-        alert("Not enough money for a company!");
+        alert("Not enough money to create a company!");
     }
 }
-
-function renderCompanies() {
-    const div = document.getElementById("yourCompanies");
-    div.innerHTML = "";
-    companies.forEach(company => {
-        div.innerHTML += `${company.name} | $${company.value}<br>`;
-    });
-}
-
-setInterval(renderCompanies, 500);
