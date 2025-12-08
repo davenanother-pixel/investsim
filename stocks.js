@@ -4,7 +4,9 @@ let stocks = [
     { name: "EcoEnergy", price: 75, shares: 0, npcShares: 800 }
 ];
 
-// Render the player's stock panel ONCE
+let money = 5000;
+
+// ----- PLAYER STOCK PANEL -----
 function renderPlayerStocks() {
     const yourDiv = document.getElementById("yourStocks");
     yourDiv.innerHTML = "";
@@ -35,7 +37,7 @@ function renderPlayerStocks() {
     });
 }
 
-// Buy stock
+// ----- BUY & SELL -----
 function buyStock(index) {
     const stock = stocks[index];
     if (money >= stock.price) {
@@ -48,7 +50,6 @@ function buyStock(index) {
     }
 }
 
-// Sell stock
 function sellStock(index) {
     const stock = stocks[index];
     const input = document.getElementById(`sellInput-${index}`);
@@ -66,16 +67,37 @@ function sellStock(index) {
     }
 }
 
-// Render NPC stocks separately
+// ----- NPC STOCK PANEL -----
 function renderNPCStocks() {
     const npcDiv = document.getElementById("npcStocks");
     npcDiv.innerHTML = "";
-    stocks.forEach((stock, i) => {
+    stocks.forEach(stock => {
         npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
     });
 }
 
-// Market update (99% growth, 1% small drop)
+// ----- MONEY DISPLAY -----
+function updateMoneyDisplay() {
+    document.getElementById("moneyDisplay").textContent = `$${money.toLocaleString("en-US")}`;
+}
+
+// ----- CHEAT SYSTEM -----
+function enterCheat() {
+    const input = document.getElementById("cheatInput");
+    const code = input.value.toLowerCase();
+
+    if (code === "inf") {
+        money = Number.MAX_SAFE_INTEGER;
+        alert("Infinite money activated!");
+        updateMoneyDisplay();
+    } else {
+        alert("Invalid cheat code!");
+    }
+
+    input.value = "";
+}
+
+// ----- MARKET UPDATE -----
 function updateMarket() {
     stocks.forEach(stock => {
         let chance = Math.random();
@@ -97,23 +119,15 @@ function updateMarket() {
             stock.npcShares += npcChange;
         }
 
-        // Update only displayed prices for player
+        // Update displayed player prices
         document.getElementById(`playerPrice-${stocks.indexOf(stock)}`).textContent = stock.price;
     });
 
     renderNPCStocks();
 }
 
-// Update money display
-function updateMoneyDisplay() {
-    document.getElementById("moneyDisplay").textContent = `$${money.toLocaleString("en-US")}`;
-}
-
-// Initial setup
+// ----- INITIAL SETUP -----
 renderPlayerStocks();
 renderNPCStocks();
 updateMoneyDisplay();
-
-// Start market updates
 setInterval(updateMarket, 500);
-
