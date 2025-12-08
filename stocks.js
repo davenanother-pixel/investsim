@@ -4,16 +4,35 @@ let stocks = [
     { name: "EcoEnergy", price: 75, shares: 0, npcShares: 800 }
 ];
 
-// Create a new stock
-function createStock(name, price) {
-    if (!name || isNaN(price)) return;
-    if (money >= 25000) {
-        money -= 25000;
-        stocks.push({ name, price, shares: 0, npcShares: 500 });
-        renderStocks();
-    } else {
-        alert("Not enough money to create a stock!");
-    }
+// Render the player's stock panel ONCE
+function renderPlayerStocks() {
+    const yourDiv = document.getElementById("yourStocks");
+    yourDiv.innerHTML = "";
+    
+    stocks.forEach((stock, i) => {
+        const div = document.createElement("div");
+        div.innerHTML = `<strong>${stock.name}</strong> - $<span id="playerPrice-${i}">${stock.price}</span> | Shares: <span id="playerShares-${i}">${stock.shares}</span><br>`;
+
+        const buyBtn = document.createElement("button");
+        buyBtn.textContent = "Buy";
+        buyBtn.onclick = () => buyStock(i);
+
+        const sellInput = document.createElement("input");
+        sellInput.type = "number";
+        sellInput.placeholder = "Amount to sell";
+        sellInput.id = `sellInput-${i}`;
+
+        const sellBtn = document.createElement("button");
+        sellBtn.textContent = "Sell";
+        sellBtn.onclick = () => sellStock(i);
+
+        div.appendChild(buyBtn);
+        div.appendChild(document.createElement("br"));
+        div.appendChild(sellInput);
+        div.appendChild(sellBtn);
+
+        yourDiv.appendChild(div);
+    });
 }
 
 // Buy stock
@@ -22,7 +41,8 @@ function buyStock(index) {
     if (money >= stock.price) {
         money -= stock.price;
         stock.shares += 1;
-        renderStocks();
+        document.getElementById(`playerShares-${index}`).textContent = stock.shares;
+        updateMoneyDisplay();
     } else {
         alert("Not enough money to buy this stock!");
     }
@@ -38,56 +58,25 @@ function sellStock(index) {
     if (stock.shares >= amount) {
         stock.shares -= amount;
         money += stock.price * amount;
-        input.value = ""; // clear input after selling
-        renderStocks();
+        input.value = "";
+        document.getElementById(`playerShares-${index}`).textContent = stock.shares;
+        updateMoneyDisplay();
     } else {
         alert("Not enough shares to sell!");
     }
 }
 
-// Render stocks once and preserve inputs
-function renderStocks() {
-    const yourDiv = document.getElementById("yourStocks");
+// Render NPC stocks separately
+function renderNPCStocks() {
     const npcDiv = document.getElementById("npcStocks");
-    yourDiv.innerHTML = "";
     npcDiv.innerHTML = "";
-
     stocks.forEach((stock, i) => {
-        // Player stock
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${stock.name}</strong> - $${stock.price} | Shares: ${stock.shares}<br>`;
-
-        const buyBtn = document.createElement("button");
-        buyBtn.textContent = "Buy";
-        buyBtn.onclick = () => buyStock(i);
-
-        // Only create input if it doesn't exist
-        let sellInput = document.getElementById(`sellInput-${i}`);
-        if (!sellInput) {
-            sellInput = document.createElement("input");
-            sellInput.type = "number";
-            sellInput.placeholder = "Amount to sell";
-            sellInput.id = `sellInput-${i}`;
-        }
-
-        const sellBtn = document.createElement("button");
-        sellBtn.textContent = "Sell";
-        sellBtn.onclick = () => sellStock(i);
-
-        div.appendChild(buyBtn);
-        div.appendChild(document.createElement("br"));
-        div.appendChild(sellInput);
-        div.appendChild(sellBtn);
-
-        yourDiv.appendChild(div);
-
-        // NPC stock
         npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
     });
 }
 
-// HIGHLY BULLISH MARKET: 99% growth, 1% small drop
-setInterval(() => {
+// Market update (99% growth, 1% small drop)
+function updateMarket() {
     stocks.forEach(stock => {
         let chance = Math.random();
         if (chance < 0.01) {
@@ -100,23 +89,31 @@ setInterval(() => {
             stock.price = Math.floor(stock.price * (1 + growth));
         }
 
-        // NPC shares adjustment
+        // NPC shares random adjustment
         let npcChange = Math.floor(Math.random() * 6); // 0-5 shares
         if (Math.random() < 0.5 && stock.npcShares >= npcChange) {
             stock.npcShares -= npcChange;
         } else {
             stock.npcShares += npcChange;
         }
+
+        // Update only displayed prices for player
+        document.getElementById(`playerPrice-${stocks.indexOf(stock)}`).textContent = stock.price;
     });
 
-    // Only update NPC prices; do not rebuild player inputs
-    const npcDiv = document.getElementById("npcStocks");
-    npcDiv.innerHTML = "";
-    stocks.forEach(stock => {
-        npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
-    });
+    renderNPCStocks();
+}
 
-}, 500); // 0.5s updates
+// Update money display
+function updateMoneyDisplay() {
+    document.getElementById("moneyDisplay").textContent = `$${money.toLocaleString("en-US")}`;
+}
 
-// Initial render
-renderStocks();
+// Initial setup
+renderPlayerStocks();
+renderNPCStocks();
+updateMoneyDisplay();
+
+// Start market updates
+setInterval(updateMarket, 500);
+
