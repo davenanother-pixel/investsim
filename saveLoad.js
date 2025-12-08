@@ -1,2 +1,1 @@
-// saveLoad.js
-console.log("saveLoad.js loaded");
+console.log("Save/Load system loaded (placeholder)");
