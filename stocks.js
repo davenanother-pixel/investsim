@@ -82,20 +82,17 @@ function renderStocks() {
     });
 }
 
-// BULLISH CRAZY MARKET MODE
+// PURE GROWTH MARKET
 setInterval(() => {
     stocks.forEach(stock => {
-        // Random fluctuation -20% to +50% per tick
-        let changePercent = (Math.random() * 0.7) - 0.2; // -20% to +50%
-        stock.price = Math.max(1, Math.floor(stock.price * (1 + changePercent)));
-
-        // Small guaranteed growth trend +0.5%
-        stock.price = Math.floor(stock.price * 1.005);
+        // Only positive growth per tick: +0.5% to +5%
+        let growthPercent = Math.random() * 0.045 + 0.005; // 0.5% to 5%
+        stock.price = Math.floor(stock.price * (1 + growthPercent));
 
         // NPC shares random adjustment
         let action = Math.random();
         let npcChange = Math.floor(Math.random() * 11); // 0-10 shares
-        if (action < 0.5 && stock.npcShares >= npcChange) {
+        if (action < 0.5) {
             stock.npcShares -= npcChange;
         } else {
             stock.npcShares += npcChange;
@@ -107,4 +104,3 @@ setInterval(() => {
 
 // Initial render
 renderStocks();
-
