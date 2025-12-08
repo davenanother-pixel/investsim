@@ -1,2 +1,1 @@
-// graphs.js
-console.log("graphs.js loaded");
+console.log("Graphs system loaded (placeholder)");
