@@ -77,32 +77,34 @@ function renderStocks() {
 
         yourDiv.appendChild(div);
 
-        // NPC stock
+        // NPC stock display
         npcDiv.innerHTML += `${stock.name} | NPC Shares: ${stock.npcShares} | Price: $${stock.price}<br>`;
     });
 }
 
-// Aggressive market update: faster and larger swings
+// BULLISH CRAZY MARKET MODE
 setInterval(() => {
     stocks.forEach(stock => {
-        // Random fluctuation -15% to +15%
-        let changePercent = (Math.random() - 0.5) * 0.3; // ±15%
+        // Random fluctuation -20% to +50% per tick
+        let changePercent = (Math.random() * 0.7) - 0.2; // -20% to +50%
         stock.price = Math.max(1, Math.floor(stock.price * (1 + changePercent)));
 
-        // Strong growth factor +0.5%
+        // Small guaranteed growth trend +0.5%
         stock.price = Math.floor(stock.price * 1.005);
 
-        // NPC shares random adjustment more often
+        // NPC shares random adjustment
         let action = Math.random();
-        if (action < 0.1 && stock.npcShares > 0) {
-            stock.npcShares -= Math.floor(Math.random() * 5); // NPC sells 0-4 shares
-        } else if (action < 0.2) {
-            stock.npcShares += Math.floor(Math.random() * 5); // NPC buys 0-4 shares
+        let npcChange = Math.floor(Math.random() * 11); // 0-10 shares
+        if (action < 0.5 && stock.npcShares >= npcChange) {
+            stock.npcShares -= npcChange;
+        } else {
+            stock.npcShares += npcChange;
         }
     });
 
     renderStocks();
-}, 500); // update every 0.5 seconds for faster action
+}, 500); // update every 0.5 seconds
 
 // Initial render
 renderStocks();
+
