@@ -1,11 +1,7 @@
 let money = 5000;
 
-function format(num) {
-    return num.toLocaleString();
-}
-
 function updateMoneyDisplay() {
-    document.getElementById("moneyDisplay").textContent = `$${format(money)}`;
+    document.getElementById("moneyDisplay").textContent = `$${money.toLocaleString("en-US")}`;
 }
 
 setInterval(updateMoneyDisplay, 500);
